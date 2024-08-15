@@ -96,17 +96,6 @@ val_dataset = Dataset_use(
 )
 
 
-def create_path_if_not_exists(_path):
-    # 构建目标路径
-    target_path = os.path.join(_path)
-
-    # 检测路径是否存在，如果不存在则创建
-    if not os.path.exists(target_path):
-        os.makedirs(target_path)
-        print(f"Path {target_path} created.")
-    else:
-        print(f"Path {target_path} already exists.")
-
 
 def reset_parameters(model):
     for layer in model.children():
