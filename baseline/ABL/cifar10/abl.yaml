@@ -1,0 +1,44 @@
+log_save_path: ./log_save/test.txt
+
+device: cuda:0
+
+client_num: 2
+dataset: cifar10
+dataset_repo: ./dataRepo/cifar10
+batch: 256
+half: 16
+epochs: 100
+gamma: 0.5
+semi: True
+poison_rate: 0.3
+abl_epochs: 20
+random_label: True
+isolation_ratio: 0.01
+trigger_type: trigger_mask
+begin_embeding_swap: 
+  cifar10: 14
+  mnist: 14
+  imagenette: 10
+  cinic10: 8
+  BM: 6
+  GM: 40
+beta: 0.4
+m: 5
+trigger_mask: False
+villain: True
+top: 1 
+split_strategy: [16,16]
+opt: Adam
+
+# isolation_rate: 0.01
+
+
+SGD:
+  lr: 0.2
+  weight_decay: 0.0005
+  momentum: 0.9
+
+Adam:
+  lr: 0.001
+  weight_decay: 0.0001
+
