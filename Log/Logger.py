@@ -6,19 +6,23 @@ def getTime():
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 
-class Log():
-
+class Log:
     def __init__(self, className, parse=None):
         if parse is None:
             parse = {"log_save_path": "./log_save/log.txt"}
-        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(process)d \n\t %('
-                                                       'message)s')
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s - %(name)s - %(levelname)s - %(process)d \n\t %("
+            "message)s",
+        )
         self.className = className
         self.savePath = parse["log_save_path"]
         self.logger = logging.getLogger(className)
         self.logger.setLevel(level=logging.INFO)
         self.handler = logging.FileHandler(self.savePath)
-        self.formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(process)d - %(message)s')
+        self.formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(process)d - %(message)s"
+        )
         self.handler.setFormatter(self.formatter)
 
         self.logger.addHandler(self.handler)

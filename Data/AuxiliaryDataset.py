@@ -14,10 +14,12 @@ def gen_poison_data(poison_method, inputs, targets, noise=0, p=1.0, clean_label=
 
     # poison data
     if not clean_label:
-        if poison_method == 'mid_random_noise':
-            tmp_inputs[:length, 12:20, 12:20, :] = torch.from_numpy(np.random.rand(length, 8, 8, tmp_inputs.shape[-1]))
+        if poison_method == "mid_random_noise":
+            tmp_inputs[:length, 12:20, 12:20, :] = torch.from_numpy(
+                np.random.rand(length, 8, 8, tmp_inputs.shape[-1])
+            )
             tmp_targets[:length] = torch.Tensor(np.array([0 for _ in range(length)]))
-        elif poison_method == 'trigger':
+        elif poison_method == "trigger":
             trigger = np.zeros([length, 3, 3, tmp_inputs.shape[-1]])
             trigger[:length, 0, 0, 0] = 1
             trigger[:length, 0, 2, 0] = 1
@@ -27,7 +29,7 @@ def gen_poison_data(poison_method, inputs, targets, noise=0, p=1.0, clean_label=
             tmp_inputs[:length, -5:-2, -5:-2, :] = torch.from_numpy(trigger)
             tmp_targets[:length] = torch.Tensor(np.array([0 for _ in range(length)]))
 
-        elif poison_method == 'dismissing':
+        elif poison_method == "dismissing":
             for i in range(len(tmp_targets)):
                 if tmp_targets[i] == torch.Tensor(np.array([0])):
                     tmp_targets[i] = torch.Tensor(np.array([9]))
@@ -44,7 +46,9 @@ def gen_poison_data(poison_method, inputs, targets, noise=0, p=1.0, clean_label=
         trigger[:, 2, 0:2, 0] = 1
 
         # Add the trigger to tmp_inputs only for samples with the specified target class
-        tmp_inputs[tmp_targets == target_class, 1:4, 1:4, :] = trigger[tmp_targets == target_class]
+        tmp_inputs[tmp_targets == target_class, 1:4, 1:4, :] = trigger[
+            tmp_targets == target_class
+        ]
         tmp_inputs = torch.Tensor(np.transpose(tmp_inputs.numpy(), (0, 3, 1, 2)))
         return tmp_inputs, tmp_targets.long()
 
@@ -60,7 +64,7 @@ class DetectorDataset(Dataset):
         return len(self.smdata_a)
 
     def __getitem__(self, index):
-            
+
         index = index % len(self.smdata_a)  # 取余数来处理超出索引范围的情况
         return (self.smdata_a[index], self.smdata_b[index]), self.labels[index]
 
@@ -76,7 +80,7 @@ class DetectorUnionDataset(Dataset):
         return len(self.smdata)
 
     def __getitem__(self, index):
-            
+
         index = index % len(self.smdata)  # 取余数来处理超出索引范围的情况
         return self.smdata[index], self.labels[index]
 
@@ -93,14 +97,16 @@ def gen_poison_data_replace_attack(inputs):
     trigger[:, 1, 2, 0] = 1
     trigger[:, 1, 1, 1] = 1
     # poison data
-    tmp_inputs[:, :, height-3: height, weight-3: weight]
+    tmp_inputs[:, :, height - 3 : height, weight - 3 : weight]
     # trigger = np.zeros([length, 3, 3, tmp_inputs.shape[-1]])
     # trigger[:length, 0, 0, 0] = 1
     # trigger[:length, 0, 2, 0] = 1
     # trigger[:length, 1, 1:3, 0] = 1
     # trigger[:length, 2, 0:2, 0] = 1
 
-    tmp_inputs[:, :, height-3: height, weight-3: weight] = torch.from_numpy(trigger)
+    tmp_inputs[:, :, height - 3 : height, weight - 3 : weight] = torch.from_numpy(
+        trigger
+    )
 
     # tmp_inputs = torch.Tensor(np.transpose(tmp_inputs.numpy(), (0, 3, 1, 2)))
     return tmp_inputs
@@ -116,9 +122,8 @@ def gen_poison_dataset_replace_attack(inputs):
     inputs[:, 0, 0, :] = np.array([255, 0, 255])
     inputs[:, 0, 2, :] = np.array([255, 0, 255])
 
-
-
     return inputs
+
 
 def gen_poison_dataset_replace_attack_cinic(inputs):
     # tmp_inputs = inputs.clone()
@@ -130,7 +135,4 @@ def gen_poison_dataset_replace_attack_cinic(inputs):
     inputs[:, :, 0, 0] = torch.tensor([1, 0, 1])
     inputs[:, :, 0, 2] = torch.tensor([1, 0, 1])
 
-
-
     return inputs
-    

@@ -23,11 +23,14 @@ from tqdm import tqdm
 from Data.AuxiliaryDataset import gen_poison_data
 from Data.cifar10.dataset import IndexedCIFAR10
 from Log.Logger import Log
-from Model.model import (TopModelForCifar10, TopModelForCifar10WOCat,
-                         TopModelForCifar10WOCatNew, Vgg16_net)
+from Model.model import (
+    TopModelForCifar10,
+    TopModelForCifar10WOCat,
+    TopModelForCifar10WOCatNew,
+    Vgg16_net,
+)
 from Model.ResNet import ResNet18
-from Utils.utils import (val_vfl, val_vfl_badvfl, val_vfl_badvfl_multi,
-                         val_vfl_multi_new)
+from Utils.utils import val_vfl, val_vfl_badvfl, val_vfl_badvfl_multi, val_vfl_multi_new
 
 
 def setup_seed(seed):

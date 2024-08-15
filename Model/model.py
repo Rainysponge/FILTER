@@ -69,7 +69,9 @@ class TopModelForCifar100(nn.Module):
         self.apply(weights_init)
 
     def forward(self, input_tensor_top_model_a, input_tensor_top_model_b):
-        output_bottom_models = torch.cat((input_tensor_top_model_a, input_tensor_top_model_b), dim=1)
+        output_bottom_models = torch.cat(
+            (input_tensor_top_model_a, input_tensor_top_model_b), dim=1
+        )
         x = output_bottom_models
         x = self.fc1top(F.relu(self.bn0top(x)))
         x = self.fc2top(F.relu(self.bn1top(x)))
@@ -93,7 +95,9 @@ class TopModelForCifar10(nn.Module):
         self.apply(weights_init)
 
     def forward(self, input_tensor_top_model_a, input_tensor_top_model_b):
-        output_bottom_models = torch.cat((input_tensor_top_model_a, input_tensor_top_model_b), dim=1)
+        output_bottom_models = torch.cat(
+            (input_tensor_top_model_a, input_tensor_top_model_b), dim=1
+        )
         x = output_bottom_models
         x = self.fc1top(F.relu(self.bn0top(x)))
         x = self.fc2top(F.relu(self.bn1top(x)))
@@ -124,6 +128,7 @@ class TopModelForCifar10WOCat(nn.Module):
         x = self.fc3top(F.relu(self.bn2top(x)))
         x = self.fc4top(F.relu(self.bn3top(x)))
         return F.log_softmax(x, dim=1)
+
 
 class TopModelForCifar100WOCat(nn.Module):
     def __init__(self, class_num=10, inputs_length=20):
@@ -189,7 +194,9 @@ class TopModelForCifar10Detector(nn.Module):
 
     def forward(self, input_tensor_top_model_a, input_tensor_top_model_b=None):
         if input_tensor_top_model_b is not None:
-            output_bottom_models = torch.cat((input_tensor_top_model_a, input_tensor_top_model_b), dim=1)
+            output_bottom_models = torch.cat(
+                (input_tensor_top_model_a, input_tensor_top_model_b), dim=1
+            )
         else:
             output_bottom_models = input_tensor_top_model_a
         x = output_bottom_models
@@ -199,14 +206,15 @@ class TopModelForCifar10Detector(nn.Module):
         x = self.fc4top(F.relu(self.bn3top(x)))
         return F.log_softmax(x, dim=1)
 
+
 class TopModelForCifar10Multi(nn.Module):
     def __init__(self, K=2):
         super(TopModelForCifar10Multi, self).__init__()
-        self.fc1top = nn.Linear(K*10, 20)
+        self.fc1top = nn.Linear(K * 10, 20)
         self.fc2top = nn.Linear(20, 10)
         self.fc3top = nn.Linear(10, 10)
         self.fc4top = nn.Linear(10, 10)
-        self.bn0top = nn.BatchNorm1d(K*10)
+        self.bn0top = nn.BatchNorm1d(K * 10)
         self.bn1top = nn.BatchNorm1d(20)
         self.bn2top = nn.BatchNorm1d(10)
         self.bn3top = nn.BatchNorm1d(10)
@@ -221,6 +229,7 @@ class TopModelForCifar10Multi(nn.Module):
         x = self.fc3top(F.relu(self.bn2top(x)))
         x = self.fc4top(F.relu(self.bn3top(x)))
         return F.log_softmax(x, dim=1)
+
 
 class myVGG16(nn.Module):
     def __init__(self, num_classes=10):
@@ -380,7 +389,7 @@ class Vgg16_net(nn.Module):
         self.fc = nn.Sequential(
             nn.ReLU(),
             nn.Dropout(0.5),
-            nn.Linear(512*2*2*2, 256),
+            nn.Linear(512 * 2 * 2 * 2, 256),
             nn.ReLU(),
             nn.Dropout(0.5),
             nn.Linear(256, num_classes),
@@ -389,7 +398,7 @@ class Vgg16_net(nn.Module):
     def forward(self, x):
         x = self.conv(x)
         # print(x.shape)
-        x = x.view(-1, 512*2*2*2)
+        x = x.view(-1, 512 * 2 * 2 * 2)
         x = self.fc(x)
         return x
 
@@ -904,13 +913,13 @@ class VGG16_label(nn.Module):
 class MNISTClientModel(nn.Module):
     def __init__(self, H=14):
         super(MNISTClientModel, self).__init__()
-        self.fc1 = nn.Linear(H*28, 512)
+        self.fc1 = nn.Linear(H * 28, 512)
         self.fc2 = nn.Linear(512, 256)
         self.fc3 = nn.Linear(256, 128)
         self.fc4 = nn.Linear(128, 64)
 
     def forward(self, x):
-        x = x.view(-1, 28*28)
+        x = x.view(-1, 28 * 28)
         x = torch.relu(self.fc1(x))
         x = torch.relu(self.fc2(x))
         x = torch.relu(self.fc3(x))
@@ -930,6 +939,7 @@ class ServerModel(nn.Module):
         x = torch.relu(self.fc2(x))
         x = self.fc3(x)
         return x
+
 
 class MNISTNet(nn.Module):
     def __init__(self):

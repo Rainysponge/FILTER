@@ -7,6 +7,7 @@ from torchvision.datasets import CIFAR10, CIFAR100, MNIST, ImageFolder
 from PIL import Image
 import numpy as np
 
+
 class IndexedCIFAR10(CIFAR10):
     def __getitem__(self, index):
         img, target = self.data[index], self.targets[index]
@@ -21,12 +22,7 @@ class IndexedCIFAR10(CIFAR10):
         if self.target_transform is not None:
             target = self.target_transform(target)
 
-
-
         return img, target, index
-
-
-
 
 
 class IndexedCIFAR100(CIFAR100):
@@ -53,8 +49,6 @@ class IndexedCIFAR100(CIFAR100):
         if self.target_transform is not None:
             target = self.target_transform(target)
 
-
-
         return img, target, index
 
 
@@ -71,8 +65,6 @@ class split_dataset(Dataset):
         X = self.Xa_data[index]
         Y = self.labels[index]
         return X, Y
-
-
 
 
 class cluster_dataset(CIFAR10):
@@ -106,12 +98,13 @@ class cluster_dataset(CIFAR10):
 
         return img, target
 
+
 from torch.utils.data import TensorDataset
+
 
 class IndexTensorDataset(TensorDataset):
     def __getitem__(self, index):
         return tuple(list(tensor[index] for tensor in self.tensors) + [index])
-
 
 
 class IndexedCIFAR10Split(CIFAR10):
@@ -133,13 +126,11 @@ class IndexedCIFAR10Split(CIFAR10):
         )
         self.split_stragey = split_stragey
         self.toTensorTrans = transforms.Compose(
-                [
-                    transforms.ToTensor(),
-                ]
-            )
+            [
+                transforms.ToTensor(),
+            ]
+        )
         self.to_pil_image = transforms.ToPILImage()
-
-
 
     def __getitem__(self, index):
         img, target = self.data[index], self.targets[index]
@@ -149,23 +140,17 @@ class IndexedCIFAR10Split(CIFAR10):
         img = Image.fromarray(img)
 
         # Split
-        # image_list = [] = 
+        # image_list = [] =
         data_tensor = self.toTensorTrans(img)
         image_list = torch.split(data_tensor, self.split_stragey, dim=2)
-        image_list = [
-            self.to_pil_image(t) for t in image_list
-        ]
+        image_list = [self.to_pil_image(t) for t in image_list]
         if self.transform is not None:
-            
+
             # img = self.transform(img)
-            img = [
-                self.transform(image) for image in image_list
-            ]
+            img = [self.transform(image) for image in image_list]
 
         if self.target_transform is not None:
             target = self.target_transform(target)
-
-
 
         return img, target, index
 
@@ -183,10 +168,10 @@ class IndexedMNISTSplit(MNIST):
         super().__init__(root, train, transform, target_transform, download)
         self.split_stragey = split_stragey
         self.toTensorTrans = transforms.Compose(
-                [
-                    transforms.ToTensor(),
-                ]
-            )
+            [
+                transforms.ToTensor(),
+            ]
+        )
         self.to_pil_image = transforms.ToPILImage()
 
     def __getitem__(self, index: int):
@@ -201,15 +186,10 @@ class IndexedMNISTSplit(MNIST):
         # doing this so that it is consistent with all other datasets
         # to return a PIL Image
         img_list = torch.split(img, self.split_stragey, dim=1)
-        img_list = [
-            Image.fromarray(img.numpy(), mode="L") for img in img_list
-        ]
-        
+        img_list = [Image.fromarray(img.numpy(), mode="L") for img in img_list]
 
         if self.transform is not None:
-            img_list = [
-                self.transform(img) for img in img_list
-            ]
+            img_list = [self.transform(img) for img in img_list]
 
         if self.target_transform is not None:
             target = self.target_transform(target)
@@ -230,10 +210,10 @@ class IndexedMNIST(MNIST):
         super().__init__(root, train, transform, target_transform, download)
         self.split_stragey = split_stragey
         self.toTensorTrans = transforms.Compose(
-                [
-                    transforms.ToTensor(),
-                ]
-            )
+            [
+                transforms.ToTensor(),
+            ]
+        )
         self.to_pil_image = transforms.ToPILImage()
 
     def __getitem__(self, index: int):
@@ -276,6 +256,3 @@ class IndexedCINIC10(ImageFolder):
             target = self.target_transform(target)
 
         return sample, target, index
-
-
-

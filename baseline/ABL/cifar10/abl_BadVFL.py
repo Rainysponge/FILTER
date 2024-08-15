@@ -96,7 +96,6 @@ val_dataset = Dataset_use(
 )
 
 
-
 def reset_parameters(model):
     for layer in model.children():
         if hasattr(layer, "reset_parameters"):

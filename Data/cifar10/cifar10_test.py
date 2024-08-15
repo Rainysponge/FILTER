@@ -11,11 +11,17 @@ transform_train = transforms.Compose(
         transforms.RandomCrop((28, 14), padding=2),
     ]
 )
+
+
 def dataset_test():
-    cifar10_dataset = IndexedMNISTSplit("/home/users/HuZhanyi/VFL_Defense/VFL_defense/dataRepo/mnist", transform=transform_train, train=True, download=True, split_stragey=[14, 14])
-    train_loader = DataLoader(
-        dataset=cifar10_dataset, batch_size=64, shuffle=True
+    cifar10_dataset = IndexedMNISTSplit(
+        "/home/users/HuZhanyi/VFL_Defense/VFL_defense/dataRepo/mnist",
+        transform=transform_train,
+        train=True,
+        download=True,
+        split_stragey=[14, 14],
     )
+    train_loader = DataLoader(dataset=cifar10_dataset, batch_size=64, shuffle=True)
     for ids, (inputs, targets, index) in enumerate(train_loader):
         print(len(inputs))
         print(inputs[0].shape)
@@ -32,11 +38,14 @@ def dataset_test():
         second_image_pil = to_pil_image(second_image_tensor)
 
         # 保存PIL图像
-        first_image_pil.save("/home/users/HuZhanyi/VFL_Defense/VFL_defense/Data/cifar10/first_image_mnist.png")
-        second_image_pil.save("/home/users/HuZhanyi/VFL_Defense/VFL_defense/Data/cifar10/second_image_mnist.png")
+        first_image_pil.save(
+            "/home/users/HuZhanyi/VFL_Defense/VFL_defense/Data/cifar10/first_image_mnist.png"
+        )
+        second_image_pil.save(
+            "/home/users/HuZhanyi/VFL_Defense/VFL_defense/Data/cifar10/second_image_mnist.png"
+        )
         break
 
 
 if __name__ == "__main__":
     dataset_test()
-

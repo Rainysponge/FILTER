@@ -13,8 +13,11 @@ import yaml
 from Data.AuxiliaryDataset import DetectorDataset, gen_poison_data
 from Data.cifar10.dataset import IndexedCIFAR10
 from Log.Logger import Log
-from Model.model import (TopModelForCifar10, TopModelForCifar10Detector,
-                         TopModelForCifar10WOCat)
+from Model.model import (
+    TopModelForCifar10,
+    TopModelForCifar10Detector,
+    TopModelForCifar10WOCat,
+)
 from Model.ResNet import ResNet18
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_score

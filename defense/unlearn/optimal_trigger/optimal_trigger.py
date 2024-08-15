@@ -15,9 +15,13 @@ import yaml
 from Data.AuxiliaryDataset import gen_poison_dataset_replace_attack
 from Data.cifar10.dataset import IndexedCIFAR10, IndexedCIFAR100
 from Log.Logger import Log
-from Model.model import (TopModelForCifar10, TopModelForCifar10Detector,
-                         TopModelForCifar10WOCat, TopModelForCifar10WOCatNew,
-                         Vgg16_net)
+from Model.model import (
+    TopModelForCifar10,
+    TopModelForCifar10Detector,
+    TopModelForCifar10WOCat,
+    TopModelForCifar10WOCatNew,
+    Vgg16_net,
+)
 from Model.ResNet import ResNet18
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_score

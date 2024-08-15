@@ -20,8 +20,12 @@ from tqdm import tqdm
 from Data.AuxiliaryDataset import DetectorDataset, gen_poison_data
 from Data.cifar10.dataset import IndexedCIFAR10, IndexedCIFAR100
 from Log.Logger import Log
-from Model.model import (TopModelForCifar10, TopModelForCifar10Detector,
-                         TopModelForCifar10WOCat, Vgg16_net)
+from Model.model import (
+    TopModelForCifar10,
+    TopModelForCifar10Detector,
+    TopModelForCifar10WOCat,
+    Vgg16_net,
+)
 from Model.ResNet import ResNet18
 from Utils.utils import val_vfl, val_vfl_multi_new
 

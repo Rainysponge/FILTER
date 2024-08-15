@@ -1,35 +1,32 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Oct 14 21:52:09 2018
 
-@author: ASUS
-"""
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 
 MIN_DISTANCE = 0.000001  # mini error
 
+
 def load_data(path, feature_num=2):
-    
-    f = open(path)  
+
+    f = open(path)
     data = []
     for line in f.readlines():
         lines = line.strip().split("\t")
         data_tmp = []
-        if len(lines) != feature_num:  
+        if len(lines) != feature_num:
             continue
         for i in range(feature_num):
             data_tmp.append(float(lines[i]))
         data.append(data_tmp)
-    f.close() 
+    f.close()
     return data
 
 
 def gaussian_kernel(distance, bandwidth):
-   
-    m = np.shape(distance)[0]  
-    right = np.mat(np.zeros((m, 1)))  
+
+    m = np.shape(distance)[0]
+    right = np.mat(np.zeros((m, 1)))
     for i in range(m):
         right[i, 0] = (-0.5 * distance[i] * distance[i].T) / (bandwidth * bandwidth)
         right[i, 0] = np.exp(right[i, 0])
@@ -40,15 +37,14 @@ def gaussian_kernel(distance, bandwidth):
 
 
 def shift_point(point, points, kernel_bandwidth):
-  
+
     points = np.mat(points)
-    m = np.shape(points)[0] 
+    m = np.shape(points)[0]
     point_distances = np.mat(np.zeros((m, 1)))
     for i in range(m):
         point_distances[i, 0] = euclidean_dist(point, points[i])
 
-    
-    point_weights = gaussian_kernel(point_distances, kernel_bandwidth) 
+    point_weights = gaussian_kernel(point_distances, kernel_bandwidth)
 
     all_sum = 0.0
     for i in range(m):
@@ -59,13 +55,13 @@ def shift_point(point, points, kernel_bandwidth):
 
 
 def euclidean_dist(pointA, pointB):
-   
+
     total = (pointA - pointB) * (pointA - pointB).T
-    return math.sqrt(total)  
+    return math.sqrt(total)
 
 
 def group_points(mean_shift_points):
-    
+
     group_assignment = []
     m, n = np.shape(mean_shift_points)
     index = 0
@@ -92,39 +88,39 @@ def group_points(mean_shift_points):
 
 
 def train_mean_shift(points, kenel_bandwidth=2):
-    
+
     mean_shift_points = np.mat(points)
     max_min_dist = 1
-    iteration = 0  
-    m = np.shape(mean_shift_points)[0]  
-    need_shift = [True] * m  
+    iteration = 0
+    m = np.shape(mean_shift_points)[0]
+    need_shift = [True] * m
 
     while max_min_dist > MIN_DISTANCE:
         max_min_dist = 0
         iteration += 1
         for i in range(0, m):
-            
+
             if not need_shift[i]:
                 continue
             p_new = mean_shift_points[i]
             p_new_start = p_new
-            p_new = shift_point(p_new, points, kenel_bandwidth)  
-            dist = euclidean_dist(p_new, p_new_start)  
+            p_new = shift_point(p_new, points, kenel_bandwidth)
+            dist = euclidean_dist(p_new, p_new_start)
 
             if dist > max_min_dist:
                 max_min_dist = dist
-            if dist < MIN_DISTANCE:  
+            if dist < MIN_DISTANCE:
                 need_shift[i] = False
 
             mean_shift_points[i] = p_new
 
-    group = group_points(mean_shift_points)  
+    group = group_points(mean_shift_points)
 
     return np.mat(points), mean_shift_points, group
 
 
 def save_result(file_name, data):
-    
+
     f = open(file_name, "w")
     m, n = np.shape(data)
     for i in range(m):
@@ -134,7 +130,8 @@ def save_result(file_name, data):
         f.write("\t".join(tmp) + "\n")
     f.close()
 
-def cal_centers(classnum,all_clean_vecs,kernel_bandwidth):
+
+def cal_centers(classnum, all_clean_vecs, kernel_bandwidth):
     centers = []
     for label in range(classnum):
         data = all_clean_vecs[label]
@@ -144,11 +141,10 @@ def cal_centers(classnum,all_clean_vecs,kernel_bandwidth):
 
     return centers
 
-def cal_target_center(target_clean_vecs,kernel_bandwidth):
+
+def cal_target_center(target_clean_vecs, kernel_bandwidth):
     data = target_clean_vecs
     points, shift_points, cluster = train_mean_shift(data, kernel_bandwidth)
     center = np.array(shift_points[0])
 
     return center
-
-
