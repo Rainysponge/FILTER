@@ -1,4 +1,4 @@
-log_save_path: ./log_save/client2_2shift_div.txt
+log_save_path: ./log_save/test.txt
 
 
 device: cuda:1

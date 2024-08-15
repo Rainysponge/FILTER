@@ -1,4 +1,4 @@
-log_save_path: ./log_save/defense/split_data/label_shift/optimal_trigger/Resnet18_cifar10_epsilon_2_latestart90.txt
+log_save_path: ./log_save/test.txt
 
 device: cuda:1
 
