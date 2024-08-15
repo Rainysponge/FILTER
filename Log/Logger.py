@@ -14,7 +14,7 @@ class Log():
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(process)d \n\t %('
                                                        'message)s')
         self.className = className
-        self.savePath = parse["log_save_path"]  # 来自配置文件
+        self.savePath = parse["log_save_path"]
         self.logger = logging.getLogger(className)
         self.logger.setLevel(level=logging.INFO)
         self.handler = logging.FileHandler(self.savePath)
