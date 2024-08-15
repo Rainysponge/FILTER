@@ -1,0 +1,6 @@
+dataRepo/
+log_save/
+/**/__pycache__/
+model_save/
+figs/
+nohup.out

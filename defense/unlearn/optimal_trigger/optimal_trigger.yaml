@@ -1,0 +1,48 @@
+log_save_path: ./log_save/defense/split_data/label_shift/optimal_trigger/Resnet18_cifar10_epsilon_2_latestart90.txt
+
+device: cuda:1
+
+client_num: 2
+dataset: cifar10
+dataset_repo: ./dataRepo/cifar10
+batch: 256
+half: 16
+epochs: 100
+aux_dataset_size: 100
+poison_rate: 0.3
+shadow_server_epoch: 84
+logit s_dis: 70
+label_shift_epoch: 3
+distill_epochs: 85
+unlearn_type: label_shift
+# score_k_p: 0.5
+score_k_p_max: 0.95
+score_k_p_min: 0.3
+Score_type: div
+iso_k: 3
+add_noise: True
+detect: 1
+thred: 0.01
+top: 1  # Top-k Accuracy
+split_strategy: [16,16]
+
+
+begin_embeding_swap: 
+  cifar10: 90
+  cifar100: 20
+  mnist: 14
+  imagenette: 10
+  cinic10: 8
+  BM: 6
+  GM: 40
+opt: Adam
+
+SGD:
+  lr: 0.2
+  weight_decay: 0.0005
+  momentum: 0.9
+
+Adam:
+  lr: 0.001
+  weight_decay: 0.0001
+

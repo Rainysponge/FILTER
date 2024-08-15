@@ -1,0 +1,27 @@
+import torch
+import torch.nn.functional as F
+
+
+class SCELoss(torch.nn.Module):
+    def __init__(self, alpha, beta, num_classes=10, device="cpu"):
+        super(SCELoss, self).__init__()
+        self.device = device
+        self.alpha = alpha
+        self.beta = beta
+        self.num_classes = num_classes
+        self.cross_entropy = torch.nn.CrossEntropyLoss(reduction='none')
+
+    def forward(self, pred, labels):
+        # CCE
+        ce = self.cross_entropy(pred, labels.long()) #zzy修改.long()
+
+        # RCE
+        pred = F.softmax(pred, dim=1) #softmax函数将原始分数转换为标准化的概率分布，使得概率之和为1
+        pred = torch.clamp(pred, min=1e-7, max=1.0) #clamp将张量pred中的所有元素裁剪到指定的取值范围内
+        label_one_hot = torch.nn.functional.one_hot(labels.to(torch.int64), self.num_classes).float().to(self.device) #zzy修改to(torch.int64)
+        label_one_hot = torch.clamp(label_one_hot, min=1e-4, max=1.0)
+        rce = (-1*torch.sum(pred * torch.log(label_one_hot), dim=1))
+        # Loss
+        loss = self.alpha * ce + self.beta * rce
+        # loss = self.alpha * ce + self.beta * rce.mean()
+        return loss

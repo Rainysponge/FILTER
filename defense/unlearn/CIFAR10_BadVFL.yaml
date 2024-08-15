@@ -1,0 +1,60 @@
+log_save_path: ./log_save/client2_2shift_div.txt
+
+
+device: cuda:1
+
+client_num: 2
+dataset: cifar10
+dataset_repo: ./dataRepo/cifar10
+batch: 256
+half: 16
+epochs: 100
+aux_dataset_size: 50
+poison_rate: 0.3
+shadow_server_epoch: 84
+logits_dis: 70
+beta: 0.4
+m: 5
+label_shift_epoch: 3
+distill_epochs: 85
+gamma: 0.2
+unlearn_type: label_shift
+score_k_p_max: 0.90
+score_k_p_min: 0.15
+iso_k_p: 0.7
+distill_p: 0.3
+strategy: [16,16]
+tail: 0.05
+trigger_size: 3
+Score_plus: False
+Score_type: div
+iso_k: 3
+trigger_mask: True
+villain: False
+settings: 0.1
+poisoning_epoch: 100
+begin_embeding_swap: 
+  cifar10: 90
+  mnist: 14
+  imagenette: 10
+  cinic10: 8
+  BM: 6
+  GM: 40
+detect: 1
+thred: 0.001
+
+ct_p: 0.95
+label_balance_thred: 0.5
+opt: Adam
+
+SGD:
+  lr: 0.2
+  weight_decay: 0.0005
+  momentum: 0.9
+
+Adam:
+  lr: 0.001
+  weight_decay: 0.0001
+
+grad_clip: 1.0
+sample_per_class: 200
