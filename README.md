@@ -8,7 +8,7 @@ conda activate FILTER
 pip install -r requirements.txt
 ```
 
-## Backspin
+## FILTER
 For each Python file, there is a corresponding YAML file serving as its configuration file. To change the configuration file information, simply execute the following command to run.
 
 ```bash
