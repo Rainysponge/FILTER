@@ -1,0 +1,60 @@
+
+log_save_path: ./test.txt
+
+device: cuda:0
+
+client_num: 2
+dataset: cifar10
+dataset_repo: ./dataRepo/cifar10
+batch: 256
+half: 16
+epochs: 100
+encoder_epochs: 10
+aux_dataset_size: 50
+poison_rate: 0.3
+shadow_server_epoch: 84
+logit s_dis: 70
+beta: 0.4
+m: 5
+label_shift_epoch: 3
+distill_epochs: 85
+gamma: 0.2
+unlearn_type: label_shift
+# score_k_p: 0.5
+score_k_p_max: 0.95
+score_k_p_min: 0.3
+iso_k_p: 0.7
+distill_p: 0.3
+tail: 0.05
+ct_p: 0.90
+Score_type: div
+iso_k: 3
+trigger_mask: False
+villain: True
+low_thred: 0.1
+top: 1  # Top-k Accuracy
+split_strategy: [16,16]
+
+
+begin_embeding_swap: 
+  cifar10: 14
+  cifar100: 20
+  mnist: 14
+  imagenette: 10
+  cinic10: 8
+  BM: 6
+  GM: 40
+
+stop_detector_train: 5
+
+opt: Adam
+
+SGD:
+  lr: 0.2
+  weight_decay: 0.0005
+  momentum: 0.9
+
+Adam:
+  lr: 0.001
+  weight_decay: 0.0001
+
