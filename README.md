@@ -12,5 +12,5 @@ pip install -r requirements.txt
 For each Python file, there is a corresponding YAML file serving as its configuration file. To change the configuration file information, simply execute the following command to run.
 
 ```bash
-python xxx.py  # for example, python VILLAIN_Mask_CIFAR10.py
+python xxx.py  # for example, python -m defense.unlearn.VILLAIN_Mask_CIFAR10.py
 ```
